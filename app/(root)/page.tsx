@@ -1,10 +1,10 @@
 import { auth, signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
+import Image from "next/image";
 
 const Home = async () => {
   const session = await auth();
-
   console.log(session);
   return (
     <>
@@ -18,6 +18,22 @@ const Home = async () => {
       >
         <Button type="submit">Log out</Button>
       </form>
+      {session?.user && (
+        <div className="mt-6 flex items-center gap-4">
+          <Image
+            src={session.user.image!}
+            alt={session.user.name || "User Avatar"}
+            width={80}
+            height={80}
+            className="rounded-full"
+          />
+
+          <div>
+            <p className="font-semibold">{session.user.name}</p>
+            <p className="text-sm text-gray-500">{session.user.email}</p>
+          </div>
+        </div>
+      )}
     </>
   );
 };
